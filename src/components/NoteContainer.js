@@ -118,7 +118,10 @@ class NoteContainer extends Component {
   }
 
   render() {
-    let filter = this.state.notesArr.filter(note => note.title.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1)
+    let filter = []
+    if (this.state.notesArr.length>0){
+     filter = this.state.notesArr.filter(note => note.title.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1)
+    }
     return (
       <Fragment>
         <Search search={this.state.search} handleSearch={this.handleSearch}/>

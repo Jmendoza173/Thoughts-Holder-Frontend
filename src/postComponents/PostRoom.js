@@ -1,10 +1,8 @@
 import React, {Component, Fragment} from 'react';
 import Search from '../components/Search';
-import SortContainer from '../components/SortContainer';
+import PostSortContainer from './PostSortContainer';
 import PostSidebar from './PostSidebar';
 import PostContent from './PostContent.js';
-
-// const urlNote = 'http://localhost:3000/api/v1/notes'
 
 export default class PostRoom extends Component{
 
@@ -19,17 +17,6 @@ export default class PostRoom extends Component{
     componentDidMount(){
         this.setState({postArr: this.props.postArr})
     }
-
-    // getPostedNote = () => {
-    //     fetch(urlNote,{
-    //         headers:{
-    //             "Authorization": localStorage.token
-    //         }
-    //     }).then(r=>r.json())
-    //     .then(noteArr => {
-    //         let postArr = noteArr.filter(note => note.post === true)
-    //         return this.setState({postArr})})
-    // }
 
     handleSearch = (evt) =>{
         this.setState({
@@ -75,12 +62,15 @@ export default class PostRoom extends Component{
     }  
 
     render(){
-        console.log(this.state)
-        let filter = this.state.postArr.filter(note => note.title.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1).reverse()
+      let filter = []
+      if (this.state.postArr.length>0){
+        console.log(this.state.postArr)
+        filter = this.state.postArr.filter(note => note.title.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1).reverse()
+      }
         return (
           <Fragment>
             <Search search={this.state.search} handleSearch={this.handleSearch}/>
-            <SortContainer handleCancel={this.handleCancel} handleSortChange={this.handleSortChange} sortValue={this.state.sortValue} sortBtn = {this.sortNoteArr}/>
+            <PostSortContainer changePage={this.props.changePage} handleCancel={this.handleCancel} handleSortChange={this.handleSortChange} sortValue={this.state.sortValue} sortBtn = {this.sortNoteArr}/>
             <div className='container'>
               <PostSidebar noteClick={this.handleNoteClick} postArr={filter}/>
               <PostContent noteToRender={this.state.note}/>

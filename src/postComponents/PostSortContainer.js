@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import Sort from './Sort'
-import Default from './Default';
+import Sort from '../components/Sort'
+// import Default from './Default';
 
-export default class SortContainer extends Component{
+export default class PostSortContainer extends Component{
 
     state = {
         sort: false
@@ -18,7 +18,9 @@ export default class SortContainer extends Component{
         if(this.state.sort){
             return <Sort sortBtn={this.props.sortBtn} return={this.returnFromSort} handleCancel={this.props.handleCancel} handleSortChange={this.props.handleSortChange} sortValue={this.props.sortValue}/>
         }else{
-            return <Default changePage={this.props.changePage} renderSort={this.renderSort}/>
+            return <div className="btn"> <button onClick={this.renderSort}>Sort</button> 
+                    <button onClick={this.props.changePage}>My Thought</button>
+                    </div>
         }
     }
     render(){

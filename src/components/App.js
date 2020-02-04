@@ -20,7 +20,8 @@ class App extends Component {
       loggedInUserId: localStorage.loggedInUserId,
       token: localStorage.token
     })
-    this.getPostedNote()
+    if(localStorage.length > 1){
+      this.getPostedNote()}
   }
 
   getPostedNote = () => {
@@ -30,13 +31,15 @@ class App extends Component {
         }
     }).then(r=>r.json())
     .then(noteArr => {
+      if(noteArr.length > 0){
         let postArr = noteArr.filter(note => note.post === true)
-        return this.setState({postArr})})
+        return this.setState({postArr})}})
+    
   }
 
 
   setToken = (token, userId) => {
-    console.log("getting token",token,userId)
+    // console.log("getting token",token,userId)
     localStorage.token = token
     localStorage.loggedInUserId = userId
     this.setState({
@@ -55,7 +58,7 @@ class App extends Component {
   }
 
   handlePost=(note)=>{
-    console.log(note.renderNote.id)
+    console.log(note.renderNote)
     this.setState({postNote: true})
     fetch(`http://localhost:3000/api/v1/notes/${note.renderNote.id}`,{
       method: "PATCH",
@@ -64,7 +67,8 @@ class App extends Component {
          Accept: 'application/json',
         "Authorization": localStorage.token},
         body: JSON.stringify({post: true})
-      }).then(r=>r.json()).then(noteToPost => this.setState({postArr: [noteToPost,...this.state.postArr]}))
+      })
+      this.setState({postArr: [...this.state.postArr, note.renderNote]})
   }
 
   changePage=()=>{

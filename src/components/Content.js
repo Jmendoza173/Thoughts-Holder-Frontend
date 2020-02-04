@@ -31,6 +31,7 @@ class Content extends Component {
   }
 
   handleSubmit = (noteObj) => {
+    console.log(noteObj)
     fetch(url+noteObj.id,{
       method: 'PATCH',
       headers:{
